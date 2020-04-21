@@ -29,4 +29,24 @@ A `PodSecurityPolicy` (PSP) is cluster level resource that controls security sen
 ## We have PSP configured. Now lets discuss about the verious Control Aspects (#16) for pod specefications
 
 ### seccomp a.k.a Secure Compute Mode Profile
-Secure compute (seccomp) model is feature, which focuses on limiting what system calls your containers will be able to execute
+Secure compute (seccomp) model is feature, which focuses on limiting what system calls our containers will be able to execute
+
+I have created a custome seccomp profile, which restrict to run `ls` command inside a continer. I have tested the same by running :
+
+```
+docker container run --rm -it --security-opt seccomp=default-no-ls.json alpine sh
+/ # ls
+sh: lseek: Operation not permitted
+```
+
+Now, I am trying activate the same profile in Kubernetes. 
+
+I have created configMap for the seccomp profile.
+
+I placed th profile inside the node /var/lib/kubelet/seccomp(using a daemonset)
+
+and then created a deployment with following annotations:
+container.security.alpha.kubernetes.io/alpine: "localhost/my-profile.json"
+
+
+

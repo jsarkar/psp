@@ -4,7 +4,7 @@ metadata:
   name: psp-workload
 rules:
 - apiGroups:
-  - extensions
+  - policy
   resources:
   - podsecuritypolicies
   resourceNames:

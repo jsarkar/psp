@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: psp
+  name: psp
+  annotations:
+    seccomp.security.alpha.kubernetes.io/pod: "localhost/my-profile.json"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: psp
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: psp
+    spec:
+      containers:
+      - image: alpine
+        name: alpine
+        command: ["sleep", "3600"]
+        securityContext:
+          runAsUser: 1000
+        resources: {}
+status: {}
